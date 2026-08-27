@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Alfurrizqy Putra — Web Developer Jakarta</title>
+    <meta name="description" content="Modern and responsive website development for restaurants, cafés, businesses, and brands in Indonesia.">
+    
+    <!-- Import Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #0A0A0F;
+            --surface: #13131A;
+            --surface-light: #1E1E2A;
+            --surface-hover: #252535;
+            --foreground: #F0F0F5;
+            --foreground-muted: #9090A8;
+            --primary: #7C6FEE;
+            --primary-foreground: #FFFFFF;
+            --primary-light: #9D94F5;
+            --primary-dark: #5A50CC;
+            --border: #2A2A38;
+            --muted-foreground: #6B6B80;
+            --radius: 0.75rem;
+            --font-sans: "Manrope", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+
+        * { box-sizing: border-box; border: 0 solid #e5e7eb; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        @media (min-width: 768px) { .container { padding: 0 3rem; } }
+        @media (min-width: 1024px) { .container { padding: 0 5rem; } }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: .875rem;
+            padding: .75rem 1.75rem;
+            transition: all .3s cubic-bezier(.16,1,.3,1);
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+        }
+        .btn-primary:hover { background-color: var(--primary-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,111,238,.35); }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: .875rem;
+            padding: .75rem 1.75rem;
+            transition: all .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary-light); transform: translateY(-2px); }
+
+        .label-tag {
+            font-family: var(--font-mono);
+            font-size: .6875rem;
+            font-weight: 500;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            display: inline-flex;
+            align-items: center;
+            gap: .375rem;
+        }
+        .label-tag::before {
+            content: ""; display: inline-block; width: 6px; height: 6px;
+            border-radius: 50%; background-color: var(--primary);
+        }
+
+        .surface-card { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+        .card-hover { transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s cubic-bezier(.16,1,.3,1), border-color .3s ease; }
+        .card-hover:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 16px 48px rgba(124,111,238,.12); }
+        
+        .text-gradient { background: linear-gradient(135deg, var(--primary-light) 0, var(--primary) 50%, var(--primary-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .text-gradient-white { background: linear-gradient(135deg, #FFFFFF, #D0D0E8 60%, #9090A8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        .section-divider { height: 1px; background: linear-gradient(90deg, transparent 0, var(--border) 30%, var(--border) 70%, transparent 100%); }
+
+        nav a { position: relative; text-decoration: none; }
+        nav a:hover { color: var(--foreground); }
+
+        .browser-mockup { background: var(--surface); border: 1px solid var(--border); border-radius: .875rem; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04); }
+        .browser-bar { background: var(--surface-light); border-bottom: 1px solid var(--border); padding: .625rem 1rem; display: flex; align-items: center; gap: .5rem; }
+        .browser-url { flex: 1; background: var(--background); border-radius: 4px; height: 22px; display: flex; align-items: center; padding: 0 .5rem; font-family: var(--font-mono); font-size: .6875rem; color: var(--muted-foreground); border: 1px solid var(--border); }
+        
+        .pricing-recommended { background: linear-gradient(135deg, var(--primary-dark) 0, var(--primary) 50%, var(--primary-light) 100%); border-color: transparent; position: relative; }
+        
+        .contact-form-input { width: 100%; background: var(--surface-light); border: 1px solid var(--border); border-radius: .5rem; padding: .75rem 1rem; color: var(--foreground); font-family: var(--font-sans); font-size: .9375rem; outline: none; transition: border-color .25s ease, box-shadow .25s ease; }
+        .contact-form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,111,238,.15); }
+        .contact-form-input::placeholder { color: var(--muted-foreground); }
+        
+        .proposal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; position: relative; overflow: hidden; }
+        .proposal-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-light)); }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            z-index: 100;
+            min-width: 200px;
+            gap: 12px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            color: var(--foreground-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .mobile-menu a:hover {
+            background: var(--surface-light);
+            color: var(--foreground);
+        }
+
+        @media (max-width: 768px) {
+            .md\\:flex { display: none !important; }
+            .md\\:hidden { display: block !important; }
+        }
+
+        .portfolio-video-wrapper {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .portfolio-video-wrapper:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(124,111,238,0.12);
+            border-color: var(--primary);
+        }
+        .portfolio-video-wrapper video {
+            width: 100%;
+            display: block;
+            height: auto;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            background: #000;
+        }
+        .portfolio-video-overlay {
+            padding: 16px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .portfolio-tags span {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            background: var(--surface-light);
+            padding: 2px 10px;
+            border-radius: 20px;
+            color: var(--muted-foreground);
+            border: 1px solid var(--border);
+        }
+
+        .portfolio-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .portfolio-modal.open { display: flex; }
+        .portfolio-modal-content {
+            background: var(--surface);
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .portfolio-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 10;
+        }
+        .portfolio-modal-close:hover { background: rgba(255,255,255,0.2); }
+        .portfolio-modal video {
+            width: 100%;
+            display: block;
+            background: #000;
+            max-height: 60vh;
+        }
+        .portfolio-modal-info {
+            padding: 24px 28px;
+        }
+        .portfolio-modal-info h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .portfolio-modal-info p {
+            color: var(--muted-foreground);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .portfolio-modal-info .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .portfolio-modal-info .tags span {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background: var(--surface-light);
+            padding: 4px 14px;
+            border-radius: 20px;
+            color: var(--foreground-muted);
+            border: 1px solid var(--border);
+        }
+        .portfolio-modal-info .hint {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--muted-foreground);
+            font-family: var(--font-mono);
+        }
+
+        /* ============================================ */
+        /* ANIMASI SCROLL REVEAL */
+        /* ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Delay untuk efek berurutan (stagger) */
+        .reveal-delay-1 { transition-delay: 0.05s; }
+        .reveal-delay-2 { transition-delay: 0.12s; }
+        .reveal-delay-3 { transition-delay: 0.19s; }
+        .reveal-delay-4 { transition-delay: 0.26s; }
+        .reveal-delay-5 { transition-delay: 0.33s; }
+        .reveal-delay-6 { transition-delay: 0.40s; }
+        .reveal-delay-7 { transition-delay: 0.47s; }
+        .reveal-delay-8 { transition-delay: 0.54s; }
+
+        /* Efek khusus untuk hero */
+        .reveal-hero {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-hero.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Efek slide dari kiri */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Efek slide dari kanan */
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Efek scale untuk card */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .sm\\:grid-cols-2 { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 640px) { .sm\\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); } }
+        .lg\\:grid-cols-12 { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 1024px) { .lg\\:grid-cols-12 { grid-template-columns: repeat(12, 1fr); } }
+        .lg\\:col-span-6 { grid-column: span 6; }
+        .lg\\:col-span-4 { grid-column: span 4; }
+        .lg\\:col-span-8 { grid-column: span 8; }
+        .md\\:grid-cols-2 { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .md\\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); } }
+        .md\\:grid-cols-3 { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .md\\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); } }
+        .md\\:flex-row { display: flex; flex-direction: column; }
+        @media (min-width: 768px) { .md\\:flex-row { flex-direction: row; } }
+        .md\\:items-end { align-items: flex-start; }
+        @media (min-width: 768px) { .md\\:items-end { align-items: flex-end; } }
+        .md\\:justify-between { justify-content: flex-start; }
+        @media (min-width: 768px) { .md\\:justify-between { justify-content: space-between; } }
+        .sm\\:block { display: none; }
+        @media (min-width: 640px) { .sm\\:block { display: block; } }
+        .md\\:hidden { display: block; }
+        @media (min-width: 768px) { .md\\:hidden { display: none; } }
+        .sm\\:flex-row { flex-direction: column; }
+        @media (min-width: 640px) { .sm\\:flex-row { flex-direction: row; } }
+        .sm\\:items-center { align-items: stretch; }
+        @media (min-width: 640px) { .sm\\:items-center { align-items: center; } }
+        .sm\\:justify-between { justify-content: flex-start; }
+        @media (min-width: 640px) { .sm\\:justify-between { justify-content: space-between; } }
+        .sm\\:grid-cols-2 { grid-template-columns: 1fr; }
+        @media (min-width: 640px) { .sm\\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(10, 10, 15, 0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);">
+        <div class="container" style="height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative;">
+            <a href="#" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--foreground); font-weight: 700;">
+                <img src="https://cdn.phototourl.com/free/2026-08-27-98321daf-5793-4b3a-ad31-c9beddb4f4c2.png" alt="Logo" style="height: 32px; width: auto; border-radius: 8px;">
+                <span class="sm:block">Muhammad Alfurrizqy Putra</span>
+            </a>
+            
+            <nav style="display: none; gap: 28px; align-items: center;" class="md:flex">
+                <a href="#home" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Home</a>
+                <a href="#services" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Services</a>
+                <a href="#pricing" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Pricing</a>
+                <a href="#process" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Process</a>
+                <a href="#portfolio" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Portfolio</a>
+                <a href="#contact" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground);">Contact</a>
+            </nav>
+
+            <div style="display: none; gap: 12px; align-items: center;" class="md:flex">
+                <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary" style="padding: 8px 20px; font-size: 14px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                    Let's Talk
+                </a>
+            </div>
+            
+            <button id="hamburgerBtn" style="display: block; background: transparent; color: var(--foreground); border: none; cursor: pointer;" class="md:hidden" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            
+            <div id="mobileMenu" class="mobile-menu">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#process">Process</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#contact">Contact</a>
+                <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" style="background: var(--primary); color: white; text-align: center; border-radius: 999px; padding: 10px;">Let's Talk</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 96px 0 64px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 25%; left: 25%; width: 384px; height: 384px; border-radius: 50%; background: radial-gradient(circle, rgba(124,111,238,0.12) 0%, transparent 70%); filter: blur(60px); pointer-events: none;"></div>
+            <div style="position: absolute; bottom: 25%; right: 25%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(90,80,204,0.08) 0%, transparent 70%); filter: blur(80px); pointer-events: none;"></div>
+            
+            <div class="container" style="position: relative; z-index: 10;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center;" class="lg:grid-cols-12">
+                    
+                    <div class="lg:col-span-6" style="display: flex; flex-direction: column; gap: 24px;">
+                        <span class="label-tag reveal-hero" style="transition-delay: 0.1s;">Web Developer · Jakarta, Indonesia</span>
+                        <h1 style="font-size: clamp(2.75rem, 8vw, 6rem); line-height: 1.05; letter-spacing: -.03em; font-weight: 800; margin: 0;">
+                            <span class="text-gradient-white reveal-hero" style="transition-delay: 0.2s;">Websites Built to Make Your</span> 
+                            <span class="text-gradient reveal-hero" style="transition-delay: 0.3s;">Business Stand Out.</span>
+                        </h1>
+                        <p class="reveal-hero" style="transition-delay: 0.4s; font-size: 1.125rem; color: var(--muted-foreground); line-height: 1.625; max-width: 32rem;">
+                            I create modern, responsive websites designed around your business and your customers.
+                        </p>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
+                            <a href="#portfolio" class="btn-primary reveal-hero" style="transition-delay: 0.5s;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h12M12 17v4"></path></svg>
+                                View My Work
+                            </a>
+                            <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-outline reveal-hero" style="transition-delay: 0.6s;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                                Let's Talk
+                            </a>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px;">
+                            <span class="reveal-hero" style="transition-delay: 0.7s; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 9999px; background: var(--surface-light); border: 1px solid var(--border); color: var(--foreground-muted);">Jakarta Based</span>
+                            <span class="reveal-hero" style="transition-delay: 0.75s; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 9999px; background: var(--surface-light); border: 1px solid var(--border); color: var(--foreground-muted);">Fast Delivery</span>
+                            <span class="reveal-hero" style="transition-delay: 0.8s; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 9999px; background: var(--surface-light); border: 1px solid var(--border); color: var(--foreground-muted);">Mobile-First</span>
+                            <span class="reveal-hero" style="transition-delay: 0.85s; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 9999px; background: var(--surface-light); border: 1px solid var(--border); color: var(--foreground-muted);">Business Focused</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 reveal-right" style="max-width: 36rem; margin: 0 auto; transition-delay: 0.3s;">
+                        <div class="browser-mockup">
+                            <div class="browser-bar">
+                                <div style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></div>
+                                <div style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></div>
+                                <div style="width:10px;height:10px;border-radius:50%;background:#28C840"></div>
+                                <div class="browser-url"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> yourbusiness.com</div>
+                            </div>
+                            <div style="padding: 0; position: relative; background: var(--background);">
+                                <div style="height: 192px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);">
+                                    <div class="text-center" style="z-index: 10; padding: 0 24px; width: 100%;">
+                                        <div style="height: 12px; border-radius: 9999px; margin-bottom: 12px; margin-left: auto; margin-right: auto; width: 70%; background: var(--surface-hover);"></div>
+                                        <div style="height: 8px; border-radius: 9999px; margin-bottom: 8px; margin-left: auto; margin-right: auto; width: 50%; background: var(--border);"></div>
+                                        <div style="height: 8px; border-radius: 9999px; margin-bottom: 16px; margin-left: auto; margin-right: auto; width: 40%; background: var(--border);"></div>
+                                        <div style="display: flex; gap: 8px; justify-content: center;">
+                                            <div style="height: 28px; width: 96px; border-radius: 9999px; background: var(--primary);"></div>
+                                            <div style="height: 28px; width: 80px; border-radius: 9999px; background: var(--border);"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--surface);">
+                                    <div style="height: 8px; width: 64px; border-radius: 4px; background: var(--primary); opacity: 0.8;"></div>
+                                    <div style="display: flex; gap: 12px;">
+                                        <div style="height: 6px; width: 40px; border-radius: 4px; background: var(--border);"></div>
+                                        <div style="height: 6px; width: 32px; border-radius: 4px; background: var(--border);"></div>
+                                        <div style="height: 6px; width: 36px; border-radius: 4px; background: var(--border);"></div>
+                                    </div>
+                                </div>
+                                <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                                        <div style="height: 64px; border-radius: 8px; background: var(--primary-dark); opacity: 0.6; border: 1px solid var(--border);"></div>
+                                        <div style="height: 64px; border-radius: 8px; background: var(--surface-light); border: 1px solid var(--border);"></div>
+                                        <div style="height: 64px; border-radius: 8px; background: var(--surface-light); border: 1px solid var(--border);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 POINTS -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div class="section-divider" style="margin-bottom: 48px;"></div>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 16px;" class="sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.05s;">
+                        <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: var(--surface-light); color: var(--primary-light);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                        </div>
+                        <h3 style="font-weight: 600; margin-bottom: 8px; color: var(--foreground);">Custom Design</h3>
+                        <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">Every website is designed from scratch to match your brand identity and business goals.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.12s;">
+                        <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: var(--surface-light); color: var(--primary-light);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"></rect><path d="M12 18h.01"></path></svg>
+                        </div>
+                        <h3 style="font-weight: 600; margin-bottom: 8px; color: var(--foreground);">Responsive</h3>
+                        <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">Looks and works perfectly on phones, tablets, and desktops — where your customers actually are.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.19s;">
+                        <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: var(--surface-light); color: var(--primary-light);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                        </div>
+                        <h3 style="font-weight: 600; margin-bottom: 8px; color: var(--foreground);">Business Focused</h3>
+                        <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">Built with real business objectives in mind — not just visual aesthetics.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.26s;">
+                        <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: var(--surface-light); color: var(--primary-light);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                        </div>
+                        <h3 style="font-weight: 600; margin-bottom: 8px; color: var(--foreground);">Modern UI</h3>
+                        <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">Clean, contemporary interfaces that feel professional and leave a strong first impression.</p>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- FOR YOUR BUSINESS -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 48rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">FOR YOUR BUSINESS</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Why Your Business Needs a Website</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625; font-size: 1.05rem;">A website isn't just a nice-to-have anymore. For restaurants, cafés, and small businesses, it's the foundation of your digital presence.</p>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 16px;" class="sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.05s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Build Credibility</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">A professional website signals legitimacy. Customers trust businesses with a proper online presence more than those without one.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.12s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Be Easier to Find</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">When people search for your type of business on Google, a website helps them find you – instead of your competitor.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.19s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Show Your Brand</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Your website reflects who you are. It communicates your values, style, and what makes your business unique.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.26s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Centralize Information</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Menu, pricing, location, hours, contact — all in one place, always up to date, accessible from any device.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.33s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Available 24/7</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Your website works while you sleep. Customers can learn about your business, browse your menu, or get in touch anytime.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.40s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">Convert Visitors</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">A well-designed website guides visitors toward taking action — making a reservation, placing an order, or contacting you.</p>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" style="padding: 64px 0;">
+            <div class="container">
+                <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px;" class="md:flex-row md:items-end md:justify-between">
+                    <div style="max-width: 36rem;">
+                        <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">SERVICES</span>
+                        <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800;">What I Can Build For Your Business</h2>
+                    </div>
+                    <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary reveal" style="transition-delay: 0.19s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        Discuss Your Project
+                    </a>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;" class="md:grid-cols-2">
+                    <!-- Restaurant -->
+                    <div class="reveal-scale" style="transition-delay: 0.05s; position: relative; padding: 28px; border-radius: 12px; border: 1px solid var(--primary); background: linear-gradient(135deg, rgba(124,111,238,0.15) 0%, rgba(90,80,204,0.08) 100%); box-shadow: 0 0 0 1px rgba(124,111,238,0.3), 0 16px 48px rgba(124,111,238,0.1);">
+                        <div style="position: absolute; top: 16px; right: 16px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 9999px; background: var(--primary); color: var(--primary-foreground);">Popular</div>
+                        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(124,111,238,0.25); color: var(--primary-light); flex-shrink: 0;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l19-9-9 19-2-8-8-2z"></path></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; text-transform: uppercase;">Restaurant</div>
+                                <h3 style="font-weight: 700; font-size: 18px;">Restaurant Website</h3>
+                            </div>
+                        </div>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">A complete digital presence for restaurants, cafés, and food businesses that converts visitors into customers.</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Digital menu with photos</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Reservation / contact form</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Location & operating hours</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Google Maps integration</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Gallery / food photos section</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>WhatsApp order button</li>
+                        </ul>
+                    </div>
+
+                    <!-- Business -->
+                    <div class="surface-card card-hover reveal-scale" style="transition-delay: 0.12s; position: relative; padding: 28px;">
+                        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--surface-light); color: var(--primary-light); flex-shrink: 0;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; text-transform: uppercase;">Business</div>
+                                <h3 style="font-weight: 700; font-size: 18px;">Business Website</h3>
+                            </div>
+                        </div>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">Professional multi-page website for small to medium businesses, services, and brands looking to establish credibility.</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>About & team section</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Services / products page</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Contact & inquiry form</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Blog or news section</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Social media integration</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>WhatsApp CTA</li>
+                        </ul>
+                    </div>
+
+                    <!-- Landing Page -->
+                    <div class="surface-card card-hover reveal-scale" style="transition-delay: 0.19s; padding: 28px;">
+                        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--surface-light); color: var(--primary-light); flex-shrink: 0;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; text-transform: uppercase;">Landing Page</div>
+                                <h3 style="font-weight: 700; font-size: 18px;">Landing Page</h3>
+                            </div>
+                        </div>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">A high-converting single-page website focused on one goal — capturing leads, selling a product, or promoting an event.</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Focused single-page layout</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Clear call-to-action</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Lead capture form</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Product / service showcase</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Fast loading & optimized</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>WhatsApp / email redirect</li>
+                        </ul>
+                    </div>
+
+                    <!-- Custom Website -->
+                    <div class="surface-card card-hover reveal-scale" style="transition-delay: 0.26s; padding: 28px;">
+                        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--surface-light); color: var(--primary-light); flex-shrink: 0;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; text-transform: uppercase;">Custom</div>
+                                <h3 style="font-weight: 700; font-size: 18px;">Custom Website</h3>
+                            </div>
+                        </div>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">Have a specific idea that doesn't fit a template? Let's build something unique around your exact requirements.</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Tailored to your requirements</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Custom features & integrations</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>E-commerce capability</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Admin panel / CMS</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>API integrations</li>
+                            <li style="display: flex; align-items: center; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light);"><polyline points="20 6 9 17 4 12"></polyline></svg>Ongoing support available</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section id="pricing" style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 42rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">PRICING</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Transparent Pricing</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625;">Choose the package that fits your needs. All prices are starting points — final pricing is discussed based on your project.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 32px;" class="md:grid-cols-3">
+                    <!-- Starter -->
+                    <div class="surface-card card-hover reveal-scale" style="transition-delay: 0.05s; position: relative; padding: 28px; display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 24px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">Starter</div>
+                            <div style="font-size: 24px; font-weight: 800; margin-bottom: 12px;">Rp 1.500.000</div>
+                            <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">Perfect for small businesses and UMKM needing a clean, professional online presence.</p>
+                        </div>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; flex: 1; font-size: 14px;">
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Single page website</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Mobile responsive</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Contact form / WhatsApp button</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Basic SEO setup</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Up to 3 sections</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>2 rounds of revision</span></li>
+                        </ul>
+                        <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+paket+Starter+%28Rp+1.500.000%29.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary" style="justify-content: center;">Get Started</a>
+                    </div>
+
+                    <!-- Professional -->
+                    <div class="pricing-recommended reveal-scale" style="transition-delay: 0.12s; position: relative; padding: 28px; display: flex; flex-direction: column; border-radius: 12px;">
+                        <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 9999px; background: #FFFFFF; color: var(--primary-dark); white-space: nowrap;">✦ RECOMMENDED</div>
+                        <div style="margin-bottom: 24px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">Professional</div>
+                            <div style="font-size: 24px; font-weight: 800; margin-bottom: 12px; color: #FFFFFF;">Rp 2.500.000</div>
+                            <p style="font-size: 14px; line-height: 1.625; color: rgba(255,255,255,0.75);">For restaurants, cafés, and businesses that want a complete, polished digital presence.</p>
+                        </div>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; flex: 1; font-size: 14px; color: rgba(255,255,255,0.85);">
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Multi-page website (up to 5 pages)</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Custom design & branding</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Contact form + WhatsApp integration</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Google Maps integration</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Photo gallery / menu section</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>SEO foundation setup</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>3 rounds of revision</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: rgba(255,255,255,0.9); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Basic performance optimization</span></li>
+                        </ul>
+                        <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+paket+Professional+%28Rp+2.500.000%29.+Saya+ingin+mendiskusikan+project+saya." target="_blank" style="display: block; text-align: center; padding: 12px; border-radius: 9999px; font-weight: 700; font-size: 14px; background: #FFFFFF; color: var(--primary-dark); text-decoration: none;">Get Professional</a>
+                    </div>
+
+                    <!-- Custom -->
+                    <div class="surface-card card-hover reveal-scale" style="transition-delay: 0.19s; position: relative; padding: 28px; display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 24px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">Custom</div>
+                            <div style="font-size: 24px; font-weight: 800; margin-bottom: 12px;">Starting Rp 3.500.000</div>
+                            <p style="font-size: 14px; line-height: 1.625; color: var(--muted-foreground);">For businesses with specific requirements, advanced features, or complex integrations.</p>
+                        </div>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; flex: 1; font-size: 14px;">
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Everything in Professional</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Unlimited pages</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Custom features & integrations</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>E-commerce / booking system</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>CMS / admin panel</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Advanced animations</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Unlimited revisions</span></li>
+                            <li style="display: flex; gap: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Priority support</span></li>
+                        </ul>
+                        <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+paket+Custom.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary" style="justify-content: center;">Discuss Custom</a>
+                    </div>
+                </div>
+
+                <div class="reveal" style="transition-delay: 0.26s; padding: 20px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border);">
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary-light); margin-top: 4px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <div>
+                            <p style="font-size: 14px; color: var(--muted-foreground);">Final pricing depends on the complexity, number of pages, integrations, and required features. Domain and hosting can be arranged according to the client's requirements.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- WHAT YOU GET -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 42rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">WHAT YOU GET</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">What's Included in Every Project</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 16px;" class="sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.05s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Responsive Design</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Your website will look great and function properly on mobile phones, tablets, and desktop computers.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.12s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">SEO Foundation</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Basic SEO setup so search engines can find and index your website properly from day one.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.19s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Custom UI</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Designed specifically for your brand — not a generic template. Your business deserves a unique digital identity.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.26s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Business Integration</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">WhatsApp CTA, Google Maps, contact forms, and other tools that connect your website to your real business.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.33s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Performance</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Optimized for fast loading speeds. Slow websites lose visitors — yours will be built to load quickly.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.40s;">
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Client Communication</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Clear updates throughout the project. You'll always know the current status and what comes next.</p>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- PROCESS -->
+        <section id="process" style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 42rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">PROCESS</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">How I Work</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625;">A structured process that keeps you informed at every step.</p>
+                    <p class="reveal" style="transition-delay: 0.26s; color: var(--muted-foreground); font-size: 14px; margin-top: 8px; font-family: var(--font-mono);">Typical: 5–14 business days</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;" class="sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.05s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">01</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Discovery</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">We discuss your business, goals, and requirements. I ask questions to understand what you need.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.12s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">02</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Planning</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">I create a clear plan — pages, structure, features, and timeline — before any design begins.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.19s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">03</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Design</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">I design the visual direction and layout. You review and approve before development starts.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.26s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">04</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Development</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">I build the website — clean code, responsive layout, and all the features we agreed on.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.33s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">05</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Revision</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">You review the result and provide feedback. I make adjustments until you're satisfied.</p>
+                    </div>
+                    <div class="surface-card card-hover reveal-scale" style="padding: 24px; transition-delay: 0.40s;">
+                        <div style="font-size: 32px; font-weight: 800; color: var(--primary-light); font-family: var(--font-mono); margin-bottom: 8px;">06</div>
+                        <h3 style="font-weight: 700; font-size: 18px; margin-bottom: 6px;">Launch</h3>
+                        <p style="font-size: 14px; color: var(--muted-foreground); line-height: 1.625;">Your website goes live. I make sure everything works correctly and hand over all the files.</p>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO -->
+        <section id="portfolio" style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 42rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">PORTFOLIO</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Selected Works</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625;">Website concepts and projects I've built.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px;" class="md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Portfolio 1 -->
+                    <div class="portfolio-video-wrapper reveal-scale" style="transition-delay: 0.05s;" data-title="Restaurant Website Concept" data-description="Modern responsive restaurant website concept with digital menu, reservation form, and gallery section." data-tags="HTML,CSS,JavaScript">
+                        <video muted playsinline>
+                            <source src="https://eu-central.storage.cloudconvert.com/tasks/fcac7f03-bfba-4c3a-b8d7-00f840550b24/Little%20Talk%20Bistro%20-%20Website%20Fullstack%202.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260827%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20260827T171640Z&X-Amz-Expires=86400&X-Amz-Signature=0278564619f6e1bbcc2c0a9feeb337b286d22494320b8517f8b815c270ab99c8&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22Little%20Talk%20Bistro%20-%20Website%20Fullstack%202.mp4%22&response-content-type=video%2Fmp4&x-amz-checksum-mode=ENABLED&x-id=GetObject" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="portfolio-video-overlay">
+                            <div style="font-weight: 700; font-size: 16px;">Restaurant Website Concept</div>
+                            <div style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px;">Modern responsive restaurant website concept with digital menu, reservation form, and gallery section.</div>
+                            <div class="portfolio-tags">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio 2 -->
+                    <div class="portfolio-video-wrapper reveal-scale" style="transition-delay: 0.12s;" data-title="Business Website Concept" data-description="Professional multi-page business website with services, about, and contact sections." data-tags="Next.js,Tailwind CSS,Typescript">
+                        <video muted playsinline>
+                            <source src="https://eu-central.storage.cloudconvert.com/tasks/f7aa522c-9f21-4511-a889-f23d1a02bd17/Little%20Talk%20Bistro%20-%20Website%20Fullstack.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260827%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20260827T171852Z&X-Amz-Expires=86400&X-Amz-Signature=fea028cc7e0aebd87a12c04db28b5f1923b5b2f8c81c0133350ca4d39c96de6f&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22Little%20Talk%20Bistro%20-%20Website%20Fullstack.mp4%22&response-content-type=video%2Fmp4&x-amz-checksum-mode=ENABLED&x-id=GetObject" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="portfolio-video-overlay">
+                            <div style="font-weight: 700; font-size: 16px;">Business Website Concept</div>
+                            <div style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px;">Professional multi-page business website with services, about, and contact sections.</div>
+                            <div class="portfolio-tags">
+                                <span>Next.js</span>
+                                <span>Tailwind CSS</span>
+                                <span>Typescript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio 3 -->
+                    <div class="portfolio-video-wrapper reveal-scale" style="transition-delay: 0.19s;" data-title="Landing Page Concept" data-description="High-converting single-page landing page focused on lead capture and product showcase." data-tags="HTML,CSS,JavaScript">
+                        <video muted playsinline>
+                            <source src="https://eu-central.storage.cloudconvert.com/tasks/75b88f15-a744-4b27-8828-ea32ceb5d158/UN%20Coffee%20-%20Website%20Fullstack.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260827%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20260827T172009Z&X-Amz-Expires=86400&X-Amz-Signature=a0aedaae081d1ff78833e68806c9a0e3949f92a0e59e69dccaae2ffb0d553545&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22UN%20Coffee%20-%20Website%20Fullstack.mp4%22&response-content-type=video%2Fmp4&x-amz-checksum-mode=ENABLED&x-id=GetObject" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="portfolio-video-overlay">
+                            <div style="font-weight: 700; font-size: 16px;">Landing Page Concept</div>
+                            <div style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px;">High-converting single-page landing page focused on lead capture and product showcase.</div>
+                            <div class="portfolio-tags">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="transition-delay: 0.26s; margin-top: 20px; text-align: center; font-size: 13px; color: var(--muted-foreground);">Click on a video to open it in fullscreen modal.</div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO MODAL -->
+        <div id="portfolioModal" class="portfolio-modal" onclick="closeModal(event)">
+            <div class="portfolio-modal-content" onclick="event.stopPropagation()">
+                <button class="portfolio-modal-close" onclick="closeModal(event)">✕</button>
+                <video id="modalVideo" controls playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="portfolio-modal-info">
+                    <h3 id="modalTitle">Restaurant Website Concept</h3>
+                    <p id="modalDescription">Modern responsive restaurant website concept with digital menu, reservation form, and gallery section.</p>
+                    <div class="tags" id="modalTags">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="hint">Press ESC to close</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOMETHING DIFFERENT -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 42rem; margin: 0 auto; text-align: center;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: inline-flex; transition-delay: 0.05s;">SOMETHING DIFFERENT?</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Have a Different Idea?</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">Not every project fits a standard package. If you have something specific in mind — a unique feature, a custom integration, or a concept you haven't seen elsewhere — let's talk about it.</p>
+                    <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary reveal" style="transition-delay: 0.26s;">Discuss Your Project</a>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- CUSTOM WEBSITE CONCEPT -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div style="max-width: 48rem; margin-bottom: 40px;">
+                    <span class="label-tag reveal" style="margin-bottom: 12px; display: block; transition-delay: 0.05s;">FOR POTENTIAL CLIENTS</span>
+                    <h2 class="reveal" style="transition-delay: 0.12s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Custom Website Concept</h2>
+                    <p class="reveal" style="transition-delay: 0.19s; color: var(--muted-foreground); line-height: 1.625;">Every project starts with a clear proposal. Here's what a typical project overview looks like.</p>
+                </div>
+
+                <div class="proposal-card reveal-scale" style="transition-delay: 0.05s; padding: 28px;">
+                    <!-- Header -->
+                    <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px;">
+                        <div style="font-weight: 700; font-size: 20px; color: var(--primary-light);">WEBSITE PROPOSAL</div>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;">
+                            <div><span style="color: var(--muted-foreground);">Muhammad Alfurrizqy Putra</span> <span style="color: var(--muted-foreground); font-size: 14px;">· Web Developer</span></div>
+                            <div style="font-size: 14px; color: var(--muted-foreground);">Draft Proposal</div>
+                        </div>
+                    </div>
+
+                    <!-- Form Input -->
+                    <form id="proposalForm" style="display: grid; grid-template-columns: 1fr; gap: 16px;" class="sm:grid-cols-2">
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">Client Name</div>
+                            <input type="text" id="proposalClientName" placeholder="[CLIENT NAME]" class="contact-form-input" style="font-weight: 600; font-size: 16px; color: var(--foreground);">
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">Project Name</div>
+                            <input type="text" id="proposalProjectName" placeholder="[PROJECT NAME]" class="contact-form-input" style="font-weight: 600; font-size: 16px; color: var(--foreground);">
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">Project Type</div>
+                            <input type="text" id="proposalProjectType" placeholder="[PROJECT TYPE]" class="contact-form-input" style="font-weight: 600; font-size: 16px; color: var(--foreground);">
+                        </div>
+                    </form>
+
+                    <!-- Concept Description -->
+                    <div style="margin-top: 20px; padding: 16px; background: var(--surface-light); border-radius: 8px; border: 1px solid var(--border);">
+                        <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">Concept Description</div>
+                        <textarea id="proposalDescription" rows="3" placeholder="[CONCEPT DESCRIPTION] — A detailed description of the project scope, design direction, key features, and expected deliverables will be written here based on our initial discussion." class="contact-form-input" style="font-size: 14px; color: var(--foreground-muted); background: transparent; border: none; padding: 0; resize: vertical; width: 100%;"></textarea>
+                    </div>
+
+                    <!-- Info Grid -->
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px;" class="sm:grid-cols-3">
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500;">Estimated Timeline</div>
+                            <div style="font-weight: 600;">7–14 business days</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500;">Revisions</div>
+                            <div style="font-weight: 600;">As per package</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted-foreground); text-transform: uppercase; font-weight: 500;">Delivery Format</div>
+                            <div style="font-weight: 600;">Live website</div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Request Proposal -->
+                    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+                        <p style="font-size: 14px; color: var(--muted-foreground);">Interested in a custom proposal for your business? Let's start with a quick conversation.</p>
+                        <button type="button" id="requestProposalBtn" class="btn-primary">Request Proposal</button>
+                    </div>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- READY TO BUILD -->
+        <section style="padding: 64px 0;">
+            <div class="container">
+                <div class="reveal-scale" style="transition-delay: 0.05s; max-width: 42rem; margin: 0 auto; text-align: center; padding: 40px 24px; border-radius: 16px; background: linear-gradient(135deg, rgba(124,111,238,0.15) 0%, rgba(90,80,204,0.08) 100%); border: 1px solid rgba(124,111,238,0.25);">
+                    <h2 style="font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 12px;">Ready to Build Your Website?</h2>
+                    <p style="color: var(--muted-foreground); line-height: 1.625; margin-bottom: 24px;">Let's create a digital presence that represents your business professionally.</p>
+                    <a href="https://wa.me/6281292267800?text=Halo+Muhammad+Alfurrizqy+Putra%2C+saya+tertarik+dengan+jasa+pembuatan+website.+Saya+ingin+mendiskusikan+project+saya." target="_blank" class="btn-primary" style="font-size: 16px; padding: 16px 32px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                        Let's Talk
+                    </a>
+                </div>
+                <div class="section-divider" style="margin-top: 48px;"></div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" style="padding: 64px 0;">
+            <div class="container">
+                <h2 class="reveal" style="transition-delay: 0.05s; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; margin-bottom: 40px;">Let's Build Something Great.</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 40px;" class="lg:grid-cols-12">
+                    <div class="lg:col-span-4" style="display: flex; flex-direction: column; gap: 24px;">
+                        <div class="reveal" style="transition-delay: 0.12s; border-radius: 12px; padding: 24px; background: var(--surface); border: 1px solid var(--border);">
+                            <div style="margin-bottom: 24px;">
+                                <div style="font-weight: 700; font-size: 18px; margin-bottom: 2px;">Muhammad Alfurrizqy Putra</div>
+                                <div style="font-size: 14px; color: var(--muted-foreground);">Web Developer</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(124,111,238,0.12); color: var(--primary-light); flex-shrink: 0;">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 12px; color: var(--muted-foreground);">WhatsApp</div>
+                                        <a href="https://wa.me/6281292267800" target="_blank" style="font-size: 14px; font-weight: 500; color: var(--foreground); text-decoration: none;">081292267800</a>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(124,111,238,0.12); color: var(--primary-light); flex-shrink: 0;">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 12px; color: var(--muted-foreground);">Email</div>
+                                        <a href="mailto:alfurrizqyputra@gmail.com" style="font-size: 14px; font-weight: 500; color: var(--foreground); text-decoration: none;">alfurrizqyputra@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(124,111,238,0.12); color: var(--primary-light); flex-shrink: 0;">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 12px; color: var(--muted-foreground);">Location</div>
+                                        <div style="font-size: 14px; font-weight: 500; color: var(--foreground);">Jakarta, Indonesia</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reveal" style="transition-delay: 0.19s; padding: 16px; border-radius: 12px; background: var(--surface-light); border: 1px solid var(--border);">
+                            <p style="font-size: 13px; color: var(--muted-foreground); line-height: 1.625;">Prefer WhatsApp? That's completely fine — it's often faster. Send a message directly and I'll respond as soon as possible.</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-8">
+                        <form id="contactForm" class="reveal-scale" style="transition-delay: 0.12s; border-radius: 12px; padding: 24px 32px; background: var(--surface); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 20px;">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;" class="sm:grid-cols-2">
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 500; color: var(--muted-foreground); margin-bottom: 8px; text-transform: uppercase;">Your Name</label>
+                                    <input type="text" id="contactName" placeholder="Your full name" class="contact-form-input">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 500; color: var(--muted-foreground); margin-bottom: 8px; text-transform: uppercase;">Business Name</label>
+                                    <input type="text" id="contactBusiness" placeholder="Your business / brand name" class="contact-form-input">
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;" class="sm:grid-cols-2">
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 500; color: var(--muted-foreground); margin-bottom: 8px; text-transform: uppercase;">Email Address</label>
+                                    <input type="email" id="contactEmail" placeholder="your@email.com" class="contact-form-input">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 500; color: var(--muted-foreground); margin-bottom: 8px; text-transform: uppercase;">Project Type</label>
+                                    <select id="contactProjectType" class="contact-form-input" style="appearance: none;">
+                                        <option value="">Select project type</option>
+                                        <option value="Restaurant Website">Restaurant Website</option>
+                                        <option value="Business Website">Business Website</option>
+                                        <option value="Landing Page">Landing Page</option>
+                                        <option value="Custom Website">Custom Website</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 500; color: var(--muted-foreground); margin-bottom: 8px; text-transform: uppercase;">Message</label>
+                                <textarea id="contactMessage" rows="4" placeholder="Tell me about your business and what kind of website you need..." class="contact-form-input" style="resize: none;"></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 16px; padding-top: 8px;" class="sm:flex-row sm:items-center sm:justify-between">
+                                <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.625; max-width: 20rem;">This form will redirect to WhatsApp with your message pre-filled.</p>
+                                <button type="submit" class="btn-primary" id="sendInquiryBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                                    Send Inquiry
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="padding: 40px 0; border-top: 1px solid var(--border);">
+        <div class="container" style="display: flex; flex-direction: column; gap: 24px;" class="md:flex-row md:items-center md:justify-between">
+            <div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <img src="https://cdn.phototourl.com/free/2026-08-27-98321daf-5793-4b3a-ad31-c9beddb4f4c2.png" alt="Logo" style="height: 32px; width: auto; border-radius: 8px;">
+                    <span style="font-weight: 700;">Muhammad Alfurrizqy Putra</span>
+                </div>
+                <p style="font-size: 12px; color: var(--muted-foreground);">Modern websites for modern businesses.</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; text-align: right;">
+                <a href="https://wa.me/6281292267800" target="_blank" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground); text-decoration: none;">081292267800</a>
+                <a href="mailto:alfurrizqyputra@gmail.com" style="font-size: 14px; font-weight: 500; color: var(--muted-foreground); text-decoration: none;">alfurrizqyputra@gmail.com</a>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; text-align: center;" class="sm:flex-row sm:justify-between">
+            <p style="font-size: 12px; color: var(--muted-foreground);">© 2026 Muhammad Alfurrizqy Putra · Web Developer</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#" style="font-size: 12px; color: var(--muted-foreground); text-decoration: none;">Privacy</a>
+                <a href="#" style="font-size: 12px; color: var(--muted-foreground); text-decoration: none;">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // === HAMBURGER MENU ===
+            const hamburger = document.getElementById('hamburgerBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('open');
+                });
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.contains(e.target) && e.target !== hamburger) {
+                        mobileMenu.classList.remove('open');
+                    }
+                });
+            }
+
+            // === PORTFOLIO MODAL ===
+            const modal = document.getElementById('portfolioModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalTags = document.getElementById('modalTags');
+
+            function openModal(videoSrc, title, description, tags) {
+                modalVideo.pause();
+                modalVideo.src = videoSrc;
+                modalVideo.load();
+                modalTitle.textContent = title;
+                modalDescription.textContent = description;
+                modalTags.innerHTML = tags.map(t => `<span>${t.trim()}</span>`).join('');
+                modal.classList.add('open');
+                modalVideo.addEventListener('loadeddata', function onLoad() {
+                    modalVideo.play();
+                    modalVideo.removeEventListener('loadeddata', onLoad);
+                });
+            }
+
+            window.closeModal = function(e) {
+                if (e) e.stopPropagation();
+                modalVideo.pause();
+                modalVideo.src = '';
+                modal.classList.remove('open');
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal(e);
+            });
+
+            document.querySelectorAll('.portfolio-video-wrapper').forEach(wrapper => {
+                wrapper.addEventListener('click', function(e) {
+                    const video = this.querySelector('video');
+                    const src = video ? video.querySelector('source')?.src || video.src : '';
+                    const title = this.dataset.title || 'Project';
+                    const description = this.dataset.description || '';
+                    const tags = this.dataset.tags ? this.dataset.tags.split(',') : [];
+                    if (src) openModal(src, title, description, tags);
+                });
+            });
+
+            // === PROPOSAL FORM ===
+            const proposalBtn = document.getElementById('requestProposalBtn');
+            if (proposalBtn) {
+                proposalBtn.addEventListener('click', function() {
+                    const clientName = document.getElementById('proposalClientName')?.value || '-';
+                    const projectName = document.getElementById('proposalProjectName')?.value || '-';
+                    const projectType = document.getElementById('proposalProjectType')?.value || '-';
+                    const description = document.getElementById('proposalDescription')?.value || '-';
+
+                    const text = `Halo, saya ingin mengajukan proposal web berikut:%0A%0A✅ Nama Client: ${encodeURIComponent(clientName)}%0A✅ Nama Project: ${encodeURIComponent(projectName)}%0A✅ Tipe Project: ${encodeURIComponent(projectType)}%0A✅ Deskripsi Konsep:%0A${encodeURIComponent(description)}`;
+                    const url = `https://wa.me/6281292267800?text=${text}`;
+                    window.open(url, '_blank');
+                });
+            }
+
+            // === CONTACT FORM ===
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('contactName')?.value || '';
+                    const business = document.getElementById('contactBusiness')?.value || '';
+                    const email = document.getElementById('contactEmail')?.value || '';
+                    const projectType = document.getElementById('contactProjectType')?.value || '';
+                    const message = document.getElementById('contactMessage')?.value || '';
+
+                    const text = `Halo Muhammad Alfurrizqy Putra, saya ingin mendiskusikan project website saya.%0A%0ANama: ${encodeURIComponent(name)}%0ABisnis: ${encodeURIComponent(business)}%0AEmail: ${encodeURIComponent(email)}%0ATipe Project: ${encodeURIComponent(projectType)}%0APesan: ${encodeURIComponent(message)}`;
+                    const url = `https://wa.me/6281292267800?text=${text}`;
+                    window.open(url, '_blank');
+                });
+            }
+
+            // === SMOOTH SCROLL ===
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const targetEl = document.querySelector(targetId);
+                        if (targetEl) {
+                            e.preventDefault();
+                            targetEl.scrollIntoView({ behavior: 'smooth' });
+                            if (mobileMenu) mobileMenu.classList.remove('open');
+                        }
+                    }
+                });
+            });
+
+            // ================================================
+            // === SCROLL REVEAL ANIMATION ===
+            // ================================================
+            const revealElements = document.querySelectorAll('.reveal, .reveal-hero, .reveal-left, .reveal-right, .reveal-scale');
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: unobserve after reveal for performance
+                        // revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px' // Sedikit offset agar muncul lebih smooth
+            });
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // Trigger reveal untuk elemen yang sudah visible di awal (hero section)
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-hero').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 100);
+
+        })();
+    </script>
+
+</body>
+</html>
